@@ -1,15 +1,27 @@
 import { crypto, type DigestAlgorithm } from "@std/crypto";
 import { encodeHex } from "@std/encoding/hex";
 
-type HashCalculator = (str: string) => Promise<string>;
+type HashCalculator = (
+  data:
+    | string
+    | BufferSource
+    | AsyncIterable<BufferSource>
+    | Iterable<BufferSource>
+) => Promise<string>;
+
+let encoder: TextEncoder | null = null;
 
 export const createHash: (algorithm: DigestAlgorithm) => HashCalculator = (
   algorithm
 ) => {
-  return async (str) => {
-    return encodeHex(
-      await crypto.subtle.digest(algorithm, new TextEncoder().encode(str))
-    );
+  return async (data) => {
+    if (typeof data === "string") {
+      if (encoder === null) {
+        encoder = new TextEncoder();
+      }
+      data = encoder.encode(data);
+    }
+    return encodeHex(await crypto.subtle.digest(algorithm, data));
   };
 };
 
