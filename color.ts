@@ -263,7 +263,9 @@ type Source<
   to: <Target extends T>(target: Target) => Source<Target>;
 };
 
-type RGBSource = Source<"rgb">;
+type RGBSource = Source<"rgb"> & {
+  hex: () => string;
+};
 type HSLSource = Source<"hsl">;
 type HSVSource = Source<"hsv">;
 
@@ -284,6 +286,12 @@ const withRGBOperators: (o: {
       return withHSVOperators({ h, s, v }) as unknown as Source<Target>;
     }
     throw new Error(`Unsupported color space conversion: RGB to ${target}`);
+  },
+  hex() {
+    const [r, g, b] = [this.r, this.g, this.b].map((c) =>
+      Math.round(c).toString(16).padStart(2, "0")
+    );
+    return `#${r}${g}${b}`;
   },
 });
 

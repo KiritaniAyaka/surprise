@@ -1,4 +1,8 @@
-import { assertAlmostEquals, assertObjectMatch } from "@std/assert";
+import {
+  assertAlmostEquals,
+  assertEquals,
+  assertObjectMatch,
+} from "@std/assert";
 import { hex, rgb, hsv, hsl } from "./color.ts";
 
 const CONVERT_TOLERANCE = 0.01;
@@ -47,4 +51,9 @@ Deno.test("color/converter/hsl2hsv", () => {
   assertAlmostEquals(source.h, 33, CONVERT_TOLERANCE);
   assertAlmostEquals(source.s, 0.36, CONVERT_TOLERANCE);
   assertAlmostEquals(source.v, 0.54, CONVERT_TOLERANCE);
+});
+
+Deno.test("color/rgb2hex", () => {
+  assertEquals(rgb({ r: 170, g: 187, b: 204 }).hex(), "#aabbcc");
+  assertEquals(rgb({ r: 170.1, g: 187.3, b: 204.3 }).hex(), "#aabbcc");
 });
