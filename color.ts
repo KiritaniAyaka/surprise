@@ -261,11 +261,10 @@ type Source<
   T extends string = Exclude<"rgb" | "hsl" | "hsv", K>
 > = Data<K> & {
   to: <Target extends T>(target: Target) => Source<Target>;
-};
-
-type RGBSource = Source<"rgb"> & {
   hex: () => string;
 };
+
+type RGBSource = Source<"rgb">;
 type HSLSource = Source<"hsl">;
 type HSVSource = Source<"hsv">;
 
@@ -317,6 +316,9 @@ const withHSLOperators: (o: {
     }
     throw new Error(`Unsupported color space conversion: HSL to ${target}`);
   },
+  hex() {
+    return this.to("rgb").hex();
+  },
 });
 
 const withHSVOperators: (o: {
@@ -342,6 +344,9 @@ const withHSVOperators: (o: {
       }) as unknown as Source<Target>;
     }
     throw new Error(`Unsupported color space conversion: HSV to ${target}`);
+  },
+  hex() {
+    return this.to("rgb").hex();
   },
 });
 

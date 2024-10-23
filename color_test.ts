@@ -56,4 +56,6 @@ Deno.test("color/converter/hsl2hsv", () => {
 Deno.test("color/rgb2hex", () => {
   assertEquals(rgb({ r: 170, g: 187, b: 204 }).hex(), "#aabbcc");
   assertEquals(rgb({ r: 170.1, g: 187.3, b: 204.3 }).hex(), "#aabbcc");
+  assertEquals(hsl({ h: 33, s: 0.22, l: 0.44 }).hex(), "#897358");
+  assertEquals(hsv({ h: 33, s: 0.22, v: 0.44 }).hex(), "#706558");
 });
