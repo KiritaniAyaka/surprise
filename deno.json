@@ -1,10 +1,11 @@
 {
   "name": "@kiritaniayaka/surprise",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "exports": {
     ".": "./mod.ts",
     "./hash": "./hash.ts",
-    "./color": "./color.ts"
+    "./color": "./color.ts",
+    "./random": "./random.ts"
   },
   "imports": {
     "@std/crypto": "jsr:@std/crypto@1.0.3/crypto",
