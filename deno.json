@@ -1,6 +1,6 @@
 {
   "name": "@kiritaniayaka/surprise",
-  "version": "0.2.2",
+  "version": "0.3.0",
   "exports": {
     ".": "./mod.ts",
     "./hash": "./hash.ts",
@@ -8,7 +8,8 @@
   },
   "imports": {
     "@std/crypto": "jsr:@std/crypto@1.0.3/crypto",
-    "@std/encoding/hex": "jsr:@std/encoding@1.0.5/hex",
+    "@std/encoding": "jsr:@std/encoding@1.0.5",
+    "@std/encoding/*": "jsr:@std/encoding@1.0.5/*",
     "@std/assert": "jsr:@std/assert@1.0.5"
   },
   "publish": {
