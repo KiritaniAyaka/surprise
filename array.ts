@@ -23,3 +23,39 @@ export function* findPositions<T extends Array<unknown>>(
 
   yield* _find(arr);
 }
+
+type General<T> = T extends number ? number
+  : T extends string ? string
+  : T extends boolean ? boolean
+  : T extends bigint ? bigint
+  : T extends symbol ? symbol
+  : T extends null ? null
+  : T extends undefined ? undefined
+  : T;
+
+type ArrayOfDimension<E = unknown, L extends number[] = number[], O = E> =
+  L extends [infer _, ...infer Rest] ? Rest["length"] extends 0 ? Array<O>
+    : Rest extends number[] ? Array<ArrayOfDimension<E, Rest, O>>
+    : never
+    : never;
+
+export function createDeepArray<T, L extends number[]>(
+  zeroValueOrGetter: T | (() => T),
+  ...lengths: L
+): ArrayOfDimension<T, L, General<T>> {
+  const [outermost, ...rest] = lengths;
+  const zeroValue = typeof zeroValueOrGetter === "function"
+    ? (zeroValueOrGetter as () => T)()
+    : zeroValueOrGetter;
+
+  if (rest.length) {
+    return Array.from({ length: outermost }).map(() =>
+      createDeepArray(zeroValue, ...rest)
+    ) as ArrayOfDimension<T, L, General<T>>;
+  }
+  return Array.from({ length: outermost }).fill(zeroValue) as ArrayOfDimension<
+    T,
+    L,
+    General<T>
+  >;
+}
